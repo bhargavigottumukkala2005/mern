@@ -12,7 +12,7 @@
 /* Page Background */
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  background: linear-gradient(135deg, #00778B 0%, #00A3AF 100%); /* Peacock Blue Gradient */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,16 +21,16 @@ body {
 
 /* Main Wrapper */
 .container {
-  background: rgba(255, 255, 255, 0.35);
+  background: rgb(255, 255, 255);
   border-radius: 10px;
   padding: 30px;
-  width: 150%;
+  width: 95%;
   max-width: 1200px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(224, 224, 224, 0.5);
+  border: 1px solid rgba(224, 224, 224, 0);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(240, 240, 240, 0.4) 50%, rgba(255, 255, 255, 0.4) 100%);
+  background: linear-gradient(135deg, rgba(229, 229, 229, 0.945) 0%, rgb(240, 240, 240) 50%, rgba(239, 239, 239, 0.967) 100%);
 }
 
 .container:before {
@@ -48,7 +48,7 @@ body {
 /* Heading */
 h1 {
   text-align: center;
-  color: #333;
+  color: #004D5B;
   margin-bottom: 20px;
   font-size: 28px;
   font-weight: 600;
@@ -66,23 +66,23 @@ h1 {
   z-index: 2;
 }
 
-input, textarea {
+input {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #005F6B;
   border-radius: 6px;
   font-size: 18px;
-  color: #333;
+  color: #004D5B;
   background: rgba(255, 255, 255, 0.6);
 }
 
-input::placeholder, textarea::placeholder {
-  color: #777;
+input::placeholder {
+  color: #005F6B;
 }
 
 button {
   padding: 12px;
-  background-color: #55baba;
+  background-color: #00778B;
   color: white;
   border: none;
   border-radius: 6px;
@@ -92,32 +92,57 @@ button {
 }
 
 button:hover {
-  background-color: #3a8383cf;
+  background-color: #005F6B;
 }
 
-/* Post List */
-.post-list {
+.search-container {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 10; /* Ensure search input is clickable */
+  width: 100%;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #005F6B;
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Post List as Table */
+.table-container {
+  overflow-x: auto;
+}
+
+.post-list {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 2;
 }
 
-.post {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  background: #f9f9f9;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+.post-list th, .post-list td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
-.post:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.post-list th {
+  background: #00778B;
+  color: white;
+}
+
+.post-list tr:hover {
+  background: rgba(0, 119, 139, 0.1);
 }
 
 .icon-button {
@@ -129,17 +154,17 @@ button:hover {
 }
 
 .icon-button.edit {
-  color: #007bff;
+  color: #004D5B;
 }
 
 .icon-button.edit:hover {
-  color: #0056b3;
+  color: #003844;
 }
 
 .icon-button.delete {
-  color: #dc3545;
+  color: #DC3545;
 }
 
 .icon-button.delete:hover {
-  color: #a71d2a;
+  color: #A71D2A;
 }

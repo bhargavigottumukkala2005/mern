@@ -2,108 +2,132 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [contacts, setContacts] = useState([]);
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Load posts from local storage once on mount
   useEffect(() => {
-    const savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
-    setPosts(savedPosts);
+    const savedContacts = JSON.parse(localStorage.getItem("contacts")) || [];
+    setContacts(savedContacts);
   }, []);
 
-  // Update local storage only when posts change
   useEffect(() => {
-    if (posts.length > 0) {
-      localStorage.setItem("posts", JSON.stringify(posts));
+    if (contacts.length > 0) {
+      localStorage.setItem("contacts", JSON.stringify(contacts));
     }
-  }, [posts]);
+  }, [contacts]);
 
-  const createPost = () => {
-    if (!title.trim() || !body.trim()) {
-      alert("Title and Body cannot be empty!");
+  const createContact = () => {
+    if (!name.trim() || !phoneNumber.trim()) {
+      alert("Name and Phone Number cannot be empty!");
       return;
     }
     
-    // Prevent duplicate entries
-    if (posts.some(post => post.title === title && post.body === body)) {
-      alert("Post already exists!");
+    if (contacts.some(contact => contact.name === name && contact.phoneNumber === phoneNumber)) {
+      alert("Contact already exists!");
       return;
     }
 
-    const newPost = { id: Date.now(), title, body };
-    setPosts([newPost, ...posts]);
-    setTitle("");
-    setBody("");
+    const newContact = { id: Date.now(), name, phoneNumber };
+    setContacts([newContact, ...contacts]);
+    setName("");
+    setPhoneNumber("");
   };
 
-  const updatePost = (id) => {
-    if (!title.trim() || !body.trim()) {
-      alert("Title and Body cannot be empty!");
+  const updateContact = (id) => {
+    if (!name.trim() || !phoneNumber.trim()) {
+      alert("Name and Phone Number cannot be empty!");
       return;
     }
 
-    setPosts(posts.map(post => post.id === id ? { ...post, title, body } : post));
+    setContacts(contacts.map(contact => contact.id === id ? { ...contact, name, phoneNumber } : contact));
     setEditingId(null);
-    setTitle("");
-    setBody("");
+    setName("");
+    setPhoneNumber("");
   };
 
-  const deletePost = (id) => {
-    const updatedPosts = posts.filter(post => post.id !== id);
-    setPosts(updatedPosts);
+  const deleteContact = (id) => {
+    const updatedContacts = contacts.filter(contact => contact.id !== id);
+    setContacts(updatedContacts);
 
-    // If deleting all posts, also clear local storage
-    if (updatedPosts.length === 0) {
-      localStorage.removeItem("posts");
+    if (updatedContacts.length === 0) {
+      localStorage.removeItem("contacts");
     }
   };
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    contact.phoneNumber.includes(searchQuery)
+  );
 
   return (
     <div className="container">
-      <h1>CRUD with Local Storage</h1>
+      <h1>Contact Management</h1>
       <div className="input-container">
         <input
           type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
-        <textarea
-          placeholder="Body"
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
+        <input
+          type="text"
+          placeholder="Phone Number"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
         />
-        <button className="create-button" onClick={editingId ? () => updatePost(editingId) : createPost}>
-          {editingId ? "Update Post" : "Create Post"}
+        <button className="create-button" onClick={editingId ? () => updateContact(editingId) : createContact}>
+          {editingId ? "Update Contact" : "Add Contact"}
         </button>
       </div>
-      <ul>
-        {posts.map(post => (
-          <li key={post.id} className="post">
-            <div>
-              <h2>{post.title}</h2>
-              <p>{post.body}</p>
-            </div>
-            <div>
-              <button className="icon-button edit" onClick={() => {
-                setEditingId(post.id);
-                setTitle(post.title);
-                setBody(post.body);
-              }}>
-                ✏️
-              </button>
-              <button className="icon-button delete" onClick={() => deletePost(post.id)}>
-                🗑️
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search by Name or Phone Number"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+      <div className="table-container">
+        <table className="post-list">
+          <thead>
+            <tr>
+              <th>Sno</th>
+              <th>Name</th>
+              <th>Phone Number</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredContacts.map((contact, index) => (
+              <tr key={contact.id}>
+                <td>{index + 1}</td>
+                <td>{contact.name}</td>
+                <td>{contact.phoneNumber}</td>
+                <td>
+                  <button className="icon-button edit" onClick={() => {
+                    setEditingId(contact.id);
+                    setName(contact.name);
+                    setPhoneNumber(contact.phoneNumber);
+                  }}>
+                    ✏️
+                  </button>
+                </td>
+                <td>
+                  <button className="icon-button delete" onClick={() => deleteContact(contact.id)}>
+                    🗑️
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
 
 export default App;
-
