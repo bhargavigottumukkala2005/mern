@@ -1,13 +1,145 @@
-body {
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Farro:wght@300;400;500;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+/* Reset default styles */
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Farro", sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Page Background */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Main Wrapper */
+.container {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  padding: 30px;
+  width: 150%;
+  max-width: 1200px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(224, 224, 224, 0.5);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(240, 240, 240, 0.4) 50%, rgba(255, 255, 255, 0.4) 100%);
+}
+
+.container:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+  border-radius: 10px 10px 0 0;
+  z-index: 1;
+}
+
+/* Heading */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+}
+
+/* Input Section */
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 2;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 18px;
+  color: #333;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+input::placeholder, textarea::placeholder {
+  color: #777;
+}
+
+button {
+  padding: 12px;
+  background-color: #55baba;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #3a8383cf;
+}
+
+/* Post List */
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.post {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.post:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.icon-button.edit {
+  color: #007bff;
+}
+
+.icon-button.edit:hover {
+  color: #0056b3;
+}
+
+.icon-button.delete {
+  color: #dc3545;
+}
+
+.icon-button.delete:hover {
+  color: #a71d2a;
 }
