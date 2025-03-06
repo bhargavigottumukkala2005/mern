@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
+import axios from 'axios';
 
 function App() {
   const [contacts, setContacts] = useState([]);
@@ -10,7 +11,24 @@ function App() {
 
   useEffect(() => {
     const savedContacts = JSON.parse(localStorage.getItem("contacts")) || [];
-    setContacts(savedContacts);
+    const deletedIds = JSON.parse(localStorage.getItem("deletedContacts")) || [];
+    
+    axios.get("https://jsonplaceholder.typicode.com/comments?postId=1")
+      .then(response => {
+        const fetchedContacts = response.data.map((item) => ({
+          id: item.id,
+          name: item.name,
+          phoneNumber: item.email  // Using email as a placeholder for phone number
+        })).filter(contact => !deletedIds.includes(contact.id));
+        
+        const existingIds = new Set(savedContacts.map(contact => contact.id));
+        const newContacts = fetchedContacts.filter(fc => !existingIds.has(fc.id));
+        const mergedContacts = [...savedContacts, ...newContacts];
+        
+        setContacts(mergedContacts);
+        localStorage.setItem("contacts", JSON.stringify(mergedContacts));
+      })
+      .catch(error => console.error("Error fetching contacts:", error));
   }, []);
 
   useEffect(() => {
@@ -21,7 +39,7 @@ function App() {
 
   const createContact = () => {
     if (!name.trim() || !phoneNumber.trim()) {
-      alert("Name and Phone Number cannot be empty!");
+      alert("Name and Phone Number or mail cannot be empty!");
       return;
     }
     
@@ -31,18 +49,22 @@ function App() {
     }
 
     const newContact = { id: Date.now(), name, phoneNumber };
-    setContacts([newContact, ...contacts]);
+    const updatedContacts = [newContact, ...contacts];
+    setContacts(updatedContacts);
+    localStorage.setItem("contacts", JSON.stringify(updatedContacts));
     setName("");
     setPhoneNumber("");
   };
 
   const updateContact = (id) => {
     if (!name.trim() || !phoneNumber.trim()) {
-      alert("Name and Phone Number cannot be empty!");
+      alert("Name and Phone Number and mail cannot be empty!");
       return;
     }
 
-    setContacts(contacts.map(contact => contact.id === id ? { ...contact, name, phoneNumber } : contact));
+    const updatedContacts = contacts.map(contact => contact.id === id ? { ...contact, name, phoneNumber } : contact);
+    setContacts(updatedContacts);
+    localStorage.setItem("contacts", JSON.stringify(updatedContacts));
     setEditingId(null);
     setName("");
     setPhoneNumber("");
@@ -51,15 +73,18 @@ function App() {
   const deleteContact = (id) => {
     const updatedContacts = contacts.filter(contact => contact.id !== id);
     setContacts(updatedContacts);
-
-    if (updatedContacts.length === 0) {
-      localStorage.removeItem("contacts");
+    localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+    
+    const deletedIds = JSON.parse(localStorage.getItem("deletedContacts")) || [];
+    if (!deletedIds.includes(id)) {
+      deletedIds.push(id);
+      localStorage.setItem("deletedContacts", JSON.stringify(deletedIds));
     }
   };
 
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    contact.phoneNumber.includes(searchQuery)
+    contact.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -74,7 +99,7 @@ function App() {
         />
         <input
           type="text"
-          placeholder="Phone Number"
+          placeholder="Phone Number or mail"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
@@ -85,7 +110,7 @@ function App() {
       <div className="search-container">
         <input
           type="text"
-          placeholder="Search by Name or Phone Number"
+          placeholder="Search by Name or Phone Number/mail"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
