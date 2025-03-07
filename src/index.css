@@ -118,7 +118,6 @@ button:hover {
 .table-container {
   overflow-x: auto;
 }
-
 .post-list {
   width: 100%;
   border-collapse: collapse;
@@ -128,12 +127,18 @@ button:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 2;
+  border: 1px solid #ddd; /* Border around the entire table */
 }
 
 .post-list th, .post-list td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd; /* Add vertical lines between columns */
+}
+
+.post-list th:last-child, .post-list td:last-child {
+  border-right: none; /* Remove border from last column */
 }
 
 .post-list th {
@@ -144,6 +149,7 @@ button:hover {
 .post-list tr:hover {
   background: rgba(0, 119, 139, 0.1);
 }
+
 
 .icon-button {
   background: none;
