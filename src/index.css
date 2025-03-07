@@ -12,7 +12,7 @@
 /* Page Background */
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #00778B 0%, #00A3AF 100%); /* Peacock Blue Gradient */
+  background: linear-gradient(135deg, #00A3AF 0%, #00A3AF 100%); /* Peacock Blue Gradient */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,7 +30,7 @@ body {
   border: 1px solid rgba(224, 224, 224, 0);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(229, 229, 229, 0.945) 0%, rgb(240, 240, 240) 50%, rgba(239, 239, 239, 0.967) 100%);
+  background: linear-gradient(135deg, rgba(229, 229, 229, 0.945) 0%, rgb(240, 240, 240) 50%, rgba(245, 245, 245, 0.967) 100%);
 }
 
 .container:before {
@@ -150,9 +150,21 @@ button:hover {
   border: none;
   cursor: pointer;
   font-size: 20px;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.5s ease;
 }
 
+
+/* Rotation effect on hover */
+.icon-button:hover {
+  transform: rotate(180deg);
+}
+
+/* Continuous rotation when clicked */
+.icon-button.rotate {
+  animation: rotateContinuous 1.5s linear infinite;
+}
+
+/* Edit button styles */
 .icon-button.edit {
   color: #004D5B;
 }
@@ -161,10 +173,21 @@ button:hover {
   color: #003844;
 }
 
+/* Delete button styles */
 .icon-button.delete {
   color: #DC3545;
 }
 
 .icon-button.delete:hover {
   color: #A71D2A;
+}
+
+/* Keyframes for continuous rotation */
+@keyframes rotateContinuous {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

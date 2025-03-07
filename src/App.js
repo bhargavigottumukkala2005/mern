@@ -39,7 +39,7 @@ function App() {
 
   const createContact = () => {
     if (!name.trim() || !phoneNumber.trim()) {
-      alert("Name and Phone Number or mail cannot be empty!");
+      alert("Name and Phone Number/mail cannot be empty!");
       return;
     }
     
@@ -58,7 +58,7 @@ function App() {
 
   const updateContact = (id) => {
     if (!name.trim() || !phoneNumber.trim()) {
-      alert("Name and Phone Number and mail cannot be empty!");
+      alert("Name and Phone Number/mail cannot be empty!");
       return;
     }
 
@@ -99,7 +99,7 @@ function App() {
         />
         <input
           type="text"
-          placeholder="Phone Number or mail"
+          placeholder="Phone Number/mail"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
